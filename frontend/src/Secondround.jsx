@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import './App.css';
 import { Link, useNavigate } from 'react-router-dom';
 import cheakfunc from './url';
+import backUrl from './backurl';
 
 const Secondround = () => {
   const [flashcards, setFlashcards] = useState([]);
@@ -28,7 +29,7 @@ const nav=useNavigate()
 
   const fetchFlashcards = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/flashcards',{
+      const response = await axios.get(`${backUrl()}/flashcards`,{
          headers: {
     Authorization:localStorage.getItem('token')
   }
@@ -56,7 +57,7 @@ const level1Cards = response.data.filter((card) => card.box === 1);
 
   const handleAnswer = async (id, correct) => {
     try {
-      await axios.put(`http://localhost:5000/flashcards/${id}`, { correct },{
+      await axios.put(`${backUrl()}/flashcards/${id}`, { correct },{
          headers: {
     Authorization:localStorage.getItem('token')
   }
@@ -74,6 +75,13 @@ const level1Cards = response.data.filter((card) => card.box === 1);
         colourstate === 0 ? ' from-green-500 via-blue-500 to-purple-500' : 'bg-gray-900 text-white'
       } p-6 flex flex-col items-center`}>
       <h1 className="text-5xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">🧠 Flashcard Learning - Level 2</h1>
+      <h1 className="text-xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">
+       On clicking on Correct or Incorrect Wait for 2 to 3 seconds because I am using free deployment which take time for request 
+
+      </h1>
+<h1 className="text-xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">
+       Also done the Progress Tracking below In Circle Animations
+      </h1> 
 
      <div className="flex gap-6 mb-10">
   <motion.div

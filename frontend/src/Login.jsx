@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import backUrl from './backurl';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,7 @@ const nav=useNavigate()
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/user/login', formData);
+            const response = await axios.post(`${backUrl()}/user/login`, formData);
             alert('Login successful!');
             localStorage.setItem('token',response.data.token)
             // console.log(res);
@@ -36,8 +37,10 @@ const nav=useNavigate()
     return (
         <section className="bg-white">
             <div className="flex items-center justify-center px-4 py-10 sm:px-6 lg:px-8 sm:py-16 lg:py-24">
+               
                 <div className="w-full max-w-md">
-                    <h2 className="text-3xl font-bold text-black sm:text-4xl">Login to Celebration</h2>
+                    
+                    <h2 className="text-3xl font-bold text-black sm:text-4xl">Login to Flashcard Learning</h2>
                     <p className="mt-2 text-base text-gray-600">
                         Don't have an account? <Link to={"/register"} className="font-medium text-blue-600 hover:underline">Sign up</Link>
                     </p>
@@ -79,7 +82,12 @@ const nav=useNavigate()
                         </div>
                     </form>
                 </div>
+                
             </div>
+             <h1 className="text-center mb-10 text-black shadow-md tracking-wide drop-shadow-lg">
+    Wait for 2 to 3 seconds because I am using free deployment which take time for request 
+
+      </h1>
         </section>
     );
 };

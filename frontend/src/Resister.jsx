@@ -1,37 +1,34 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import backUrl from './backurl';
 
 const Resister = () => {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
-        password: '',
-        agree: false
+        password: ''
     });
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         });
     };
-    const nav=useNavigate()
+
+    const nav = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!formData.agree) {
-            alert('You must agree to the terms and conditions.');
-            return;
-        }
         try {
-            const response = await axios.post('http://localhost:5000/user/register', {
+            const response = await axios.post(`${backUrl()}/user/register`, {
                 email: formData.email,
                 password: formData.password
             });
             alert(response.data.message);
-            nav('/login')
+            nav('/login');
         } catch (error) {
             alert(error.response?.data?.message || 'Registration failed');
         }
@@ -42,7 +39,7 @@ const Resister = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2">
                 <div className="flex items-center justify-center px-4 py-10 bg-white sm:px-6 lg:px-8 sm:py-16 lg:py-24">
                     <div className="xl:w-full xl:max-w-sm 2xl:max-w-md xl:mx-auto">
-                        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign up to Celebration</h2>
+                        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign up to Flashcard Learning</h2>
                         <p className="mt-2 text-base text-gray-600">
                             Already have an account? <Link to={"/login"} className="font-medium text-blue-600 hover:text-blue-700 hover:underline">Login</Link>
                         </p>
@@ -94,19 +91,6 @@ const Resister = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        name="agree"
-                                        checked={formData.agree}
-                                        onChange={handleChange}
-                                        className="w-5 h-5 text-blue-600 border-gray-200 rounded"
-                                    />
-                                    <label className="ml-3 text-sm text-gray-500">
-                                        I agree to Celebration’s <a href="#" className="text-blue-600 hover:text-blue-700 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-600 hover:text-blue-700 hover:underline">Privacy Policy</a>
-                                    </label>
-                                </div>
-
                                 <div>
                                     <button
                                         type="submit"
@@ -117,12 +101,6 @@ const Resister = () => {
                                 </div>
                             </div>
                         </form>
-
-                        <div className="mt-3 space-y-3">
-                           
-
-                            
-                        </div>
                     </div>
                 </div>
 
@@ -130,8 +108,8 @@ const Resister = () => {
                     <div>
                         <img className="w-full mx-auto" src="https://cdn.rareblocks.xyz/collection/celebration/images/signup/1/cards.png" alt="Cards" />
                         <div className="w-full max-w-md mx-auto xl:max-w-xl">
-                            <h3 className="text-2xl font-bold text-center text-black">Design your own card</h3>
-                            <p className="mt-2.5 text-center text-gray-500">Create beautiful cards with ease.</p>
+                            <h3 className="text-2xl font-bold text-center text-black">Design your own Flashcards</h3>
+                            <p className="mt-2.5 text-center text-gray-500">Create beautiful Flashcards with us.</p>
                             <div className="flex items-center justify-center mt-10 space-x-3">
                                 <div className="bg-orange-500 rounded-full w-20 h-1.5"></div>
                                 <div className="bg-gray-200 rounded-full w-12 h-1.5"></div>

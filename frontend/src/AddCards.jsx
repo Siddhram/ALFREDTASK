@@ -4,21 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { apidataset, modesetcolour } from './redux/dataSlice';
 import cheakfunc from './url';
+import backUrl from './backurl';
 
 const AddCards = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
-  const [count, setCount] = useState('');
   const [userEmail, setUserEmail] = useState(localStorage.getItem('email'));
   const [profileImage, setProfileImage] = useState('https://via.placeholder.com/40');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+      const [count, setCount] = useState(0);
+
   const val = useSelector((state) => state.dataReducer.firstlevel);
+
   const colourstate = useSelector((state) => state.dataReducer.modecolour);
 
   const func = async () => {
-    const response = await axios.get('http://localhost:5000/flashcards', {
+    const response = await axios.get(`${backUrl()}/flashcards`, {
       headers: {
         Authorization: localStorage.getItem('token'),
       },
@@ -34,7 +37,7 @@ const AddCards = () => {
       const level1Cards = response.data.filter((card) => card.box === 1);
       const level2Cards = response.data.filter((card) => card.box === 2);
       const level3Cards = response.data.filter((card) => card.box === 3);
-
+      setCount(level1Cards.length)
       dispatch(
         apidataset({
           firstlevel: level1Cards.length,
@@ -50,8 +53,8 @@ const AddCards = () => {
   const handleAddFlashcard = async () => {
     if (question && answer) {
       try {
-        await axios.post(
-          'http://localhost:5000/flashcards',
+      const response=  await axios.post(
+          `${backUrl()}/flashcards`,
           { question, answer },
           {
             headers: {
@@ -59,17 +62,34 @@ const AddCards = () => {
             },
           }
         );
+      //    const level1Cards = response.data.filter((card) => card.box === 1);
+      // const level2Cards = response.data.filter((card) => card.box === 2);
+      // const level3Cards = response.data.filter((card) => card.box === 3);
         setQuestion('');
         setAnswer('');
         alert('Flashcard added successfully!');
-        setCount(count + 1);
-        dispatch(
-          apidataset({
-            firstlevel: count,
-            secondlevel: 0,
-            thirdlevel: 0,
-          })
-        );
+        // dispatch(
+        //   apidataset({
+        //     firstlevel: level1Cards.length,
+        //     secondlevel: level2Cards.length,
+        //     thirdlevel: level3Cards.length
+        //   })
+        // );
+        func().then((response) => {
+      const level1Cards = response.data.filter((card) => card.box === 1);
+      const level2Cards = response.data.filter((card) => card.box === 2);
+      const level3Cards = response.data.filter((card) => card.box === 3);
+      setCount(level1Cards.length)
+      dispatch(
+        apidataset({
+          firstlevel: level1Cards.length,
+          secondlevel: level2Cards.length,
+          thirdlevel: level3Cards.length,
+        })
+      );
+    });
+                setCount(count + 1);
+
       } catch (error) {
         console.error('Error adding flashcard:', error);
       }
@@ -114,7 +134,20 @@ const AddCards = () => {
           >
             {colourstate === 0 ? 'Dark Mode Off' : 'Dark Mode ON'}
           </button>
+          <button
+            className={`px-4 py-2 rounded ${
+              colourstate === 0 ? 'bg-red-500' : 'bg-green-500'
+            }`}
+            onClick={() => {
+             localStorage.removeItem('token');
+             localStorage.removeItem('email');
+             navigate("/login")
+            }}
+          >
+            Log out
+          </button>
         </div>
+
       </nav>
 
       <div
