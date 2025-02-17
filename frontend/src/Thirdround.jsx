@@ -76,7 +76,7 @@ const nav=useNavigate()
       } p-6 flex flex-col items-center`}>
       <h1 className="text-5xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">🧠 Flashcard Learning - Level 3</h1>
 <h1 className="text-xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">
-       On clicking on Correct or Incorrect Wait for 2 to 3 seconds To update Levels because I am using free deployment which take time for request 
+     Tap On the Cards To see Answer and On clicking on Correct or Incorrect Wait for 2 to 3 seconds To update Levels because I am using free deployment which take time for request 
 
       </h1>
 <h1 className="text-xl font-extrabold mb-10 text-white shadow-md tracking-wide drop-shadow-lg">
