@@ -6,7 +6,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [tailwindcss(), react()],
   preview: {
-    host: '0.0.0.0', // Make the server accessible externally
-    port: 4173, // You can specify a port here, just like the local one
+    host: '0.0.0.0',  // Make the server accessible externally
+    port: 4173,        // Use the same port as your local setup
+    allowedHosts: ['alfredtask-5.onrender.com'], // Add your Render app's domain here
   },
 })
